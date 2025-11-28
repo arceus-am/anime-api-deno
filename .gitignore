@@ -19,9 +19,5 @@ Thumbs.db
 .docker/
 docker-compose.override.yml
 
-# Optional: VSCode workspace / JetBrains
-*.code-workspace
+# IDE
 .idea/
-
-# Ignore Windows AppData artifacts (rarely needed)
-AppData/
