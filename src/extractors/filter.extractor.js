@@ -1,5 +1,6 @@
-import axios from "axios";
-import * as cheerio from "cheerio";
+// src/extractors/filter.extractor.js  (Deno-compatible)
+import axios from "npm:axios@1.6.7";
+import * as cheerio from "npm:cheerio@1.0.0-rc.12";
 import { DEFAULT_HEADERS } from "../configs/header.config.js";
 import { v1_base_url } from "../utils/base_v1.js";
 import {
@@ -17,13 +18,9 @@ async function extractFilterResults(params = {}) {
   try {
     const normalizeParam = (param, mapping) => {
       if (!param) return undefined;
-
       if (typeof param === "string") {
         const isAlreadyId = Object.values(mapping).includes(param);
-        if (isAlreadyId) {
-          return param;
-        }
-
+        if (isAlreadyId) return param;
         const key = param.trim().toUpperCase();
         return mapping.hasOwnProperty(key) ? mapping[key] : undefined;
       }
@@ -40,7 +37,11 @@ async function extractFilterResults(params = {}) {
     let languageParam = params.language;
     if (languageParam != null) {
       languageParam = String(languageParam).trim().toUpperCase();
-      languageParam = FILTER_LANGUAGE_MAP[languageParam] ?? (Object.values(FILTER_LANGUAGE_MAP).includes(languageParam) ? languageParam : undefined);
+      languageParam =
+        FILTER_LANGUAGE_MAP[languageParam] ??
+        (Object.values(FILTER_LANGUAGE_MAP).includes(languageParam)
+          ? languageParam
+          : undefined);
     }
 
     let genresParam = params.genres;
@@ -71,24 +72,17 @@ async function extractFilterResults(params = {}) {
     };
 
     Object.keys(filteredParams).forEach((key) => {
-      if (filteredParams[key] === undefined) {
-        delete filteredParams[key];
-      }
+      if (filteredParams[key] === undefined) delete filteredParams[key];
     });
 
     const queryParams = new URLSearchParams(filteredParams).toString();
-
     let apiUrl = `https://${v1_base_url}/filter?${queryParams}`;
-
-    if (filteredParams.keyword) {
-      apiUrl = `https://${v1_base_url}/search?${queryParams}`;
-    }
+    if (filteredParams.keyword) apiUrl = `https://${v1_base_url}/search?${queryParams}`;
 
     const resp = await axios.get(apiUrl, {
       headers: {
         Accept:
           "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8",
-
         "Accept-Encoding": "gzip, deflate, br",
         "User-Agent": DEFAULT_HEADERS,
       },
@@ -115,30 +109,14 @@ async function extractFilterResults(params = {}) {
           $el.find(".film-name .dynamic-name").attr("data-jname") || null,
         tvInfo: {
           showType:
-            $el.find(".fd-infor .fdi-item:first-child").text().trim() ||
-            "Unknown",
+            $el.find(".fd-infor .fdi-item:first-child").text().trim() || "Unknown",
           duration: $el.find(".fd-infor .fdi-duration").text().trim() || null,
           sub:
-            Number(
-              $el
-                .find(".tick-sub")
-                .text()
-                .replace(/[^0-9]/g, "")
-            ) || null,
+            Number($el.find(".tick-sub").text().replace(/[^0-9]/g, "")) || null,
           dub:
-            Number(
-              $el
-                .find(".tick-dub")
-                .text()
-                .replace(/[^0-9]/g, "")
-            ) || null,
+            Number($el.find(".tick-dub").text().replace(/[^0-9]/g, "")) || null,
           eps:
-            Number(
-              $el
-                .find(".tick-eps")
-                .text()
-                .replace(/[^0-9]/g, "")
-            ) || null,
+            Number($el.find(".tick-eps").text().replace(/[^0-9]/g, "")) || null,
         },
         adultContent: $el.find(".tick-rate").text().trim() || null,
       });
@@ -171,4 +149,4 @@ async function extractFilterResults(params = {}) {
   }
 }
 
-export { extractFilterResults as default };
+export default extractFilterResults;

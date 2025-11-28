@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "npm:axios@1.6.7";
 import { v1_base_url } from "../utils/base_v1.js";
 import { provider } from "../utils/provider.js";
 

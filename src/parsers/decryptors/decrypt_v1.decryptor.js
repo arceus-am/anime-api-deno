@@ -1,6 +1,6 @@
-import axios from "axios";
+import axios from "npm:axios@1.6.7";
 import CryptoJS from "crypto-js";
-import * as cheerio from "cheerio";
+import * as cheerio from "npm:cheerio@1.0.0-rc.12";
 import { v1_base_url } from "../../utils/base_v1.js";
 import { v4_base_url } from "../../utils/base_v4.js";
 import { fallback_1, fallback_2 } from "../../utils/fallback.js";

@@ -1,5 +1,6 @@
-import axios from "axios";
-import * as cheerio from "cheerio";
+// src/extractors/actors.extractor.js (Deno-compatible)
+import axios from "npm:axios@1.6.7";
+import * as cheerio from "npm:cheerio@1.0.0-rc.12";
 import { v1_base_url } from "../utils/base_v1.js";
 
 export async function extractVoiceActor(id) {
@@ -7,22 +8,13 @@ export async function extractVoiceActor(id) {
     const response = await axios.get(`https://${v1_base_url}/people/${id}`);
     const $ = cheerio.load(response.data);
 
-    // Extract basic information
     const name = $(".apw-detail .name").text().trim();
     const japaneseName = $(".apw-detail .sub-name").text().trim();
-
-    // Extract profile image
-    const profile = $(".avatar-circle img").attr("src"); // Extracting the profile image URL
-
-    // Extract about information as a full bio description
+    const profile = $(".avatar-circle img").attr("src");
     const bioText = $("#bio .bio").text().trim();
-    const bioHtml = $("#bio .bio").html(); // Capture the raw HTML
-    const about = {
-      description: bioText, // Store the full bio as a single description
-      style: bioHtml, // Store the full HTML structure
-    };
+    const bioHtml = $("#bio .bio").html();
+    const about = { description: bioText, style: bioHtml };
 
-    // Extract voice acting roles
     const roles = [];
     $(".bac-list-wrap .bac-item").each((_, element) => {
       const animeElement = $(element).find(".per-info.anime-info.ltr");
@@ -35,25 +27,11 @@ export async function extractVoiceActor(id) {
           poster:
             animeElement.find(".pi-avatar img").attr("data-src") ||
             animeElement.find(".pi-avatar img").attr("src"),
-          type: animeElement
-            .find(".pi-cast")
-            .text()
-            .trim()
-            .split(",")[0]
-            .trim(),
-          year: animeElement
-            .find(".pi-cast")
-            .text()
-            .trim()
-            .split(",")[1]
-            ?.trim(),
+          type: animeElement.find(".pi-cast").text().trim().split(",")[0].trim(),
+          year: animeElement.find(".pi-cast").text().trim().split(",")[1]?.trim(),
         },
         character: {
-          id: characterElement
-            .find(".pi-name a")
-            .attr("href")
-            ?.split("/")
-            .pop(),
+          id: characterElement.find(".pi-name a").attr("href")?.split("/").pop(),
           name: characterElement.find(".pi-name a").text().trim(),
           profile:
             characterElement.find(".pi-avatar img").attr("data-src") ||
@@ -64,7 +42,6 @@ export async function extractVoiceActor(id) {
       roles.push(role);
     });
 
-    // Construct the final response
     const voiceActorData = {
       success: true,
       results: {
@@ -80,7 +57,6 @@ export async function extractVoiceActor(id) {
         ],
       },
     };
-
     return voiceActorData;
   } catch (error) {
     console.error("Error extracting voice actor data:", error);

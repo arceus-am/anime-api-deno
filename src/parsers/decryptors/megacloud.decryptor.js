@@ -3,7 +3,7 @@
 import util from "util";
 import pixels from "image-pixels";
 import cryptoJs from "crypto-js";
-import axios from "axios";
+import axios from "npm:axios@1.6.7";
 const user_agent =
   "Mozilla/5.0 (X11; Linux x86_64; rv:133.0) Gecko/20100101 Firefox/133.0";
 import { webcrypto } from "crypto";

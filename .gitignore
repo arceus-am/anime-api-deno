@@ -1,8 +1,27 @@
-.vscode
-node_modules
-.env
-dist
-package-lock.json
-.idea
-yarn.lock
+﻿# Node / Deno
+node_modules/
+.deno/
+npm-debug.log
+yarn-error.log
 pnpm-lock.yaml
+
+# env / secret
+.env
+.env.local
+
+# Editor / OS files
+.vscode/
+*.log
+.DS_Store
+Thumbs.db
+
+# Docker / system
+.docker/
+docker-compose.override.yml
+
+# Optional: VSCode workspace / JetBrains
+*.code-workspace
+.idea/
+
+# Ignore Windows AppData artifacts (rarely needed)
+AppData/

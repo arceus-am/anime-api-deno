@@ -1,5 +1,5 @@
-import axios from "axios";
-import * as cheerio from "cheerio";
+import axios from "npm:axios@1.6.7";
+import * as cheerio from "npm:cheerio@1.0.0-rc.12";
 import formatTitle from "../helper/formatTitle.helper.js";
 import { v1_base_url } from "../utils/base_v1.js";
 

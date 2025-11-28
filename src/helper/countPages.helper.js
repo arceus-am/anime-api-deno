@@ -1,5 +1,5 @@
-import axios from "axios";
-import * as cheerio from "cheerio";
+import axios from "npm:axios@1.6.7";
+import * as cheerio from "npm:cheerio@1.0.0-rc.12";
 import { DEFAULT_HEADERS } from "../configs/header.config.js";
 
 const axiosInstance = axios.create({ headers: DEFAULT_HEADERS });
