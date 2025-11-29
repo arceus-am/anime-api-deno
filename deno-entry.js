@@ -41,6 +41,10 @@ const jsonError = (res, message = "Internal server error", status = 500) =>
 // Register all API routes
 createApiRoutes(app, jsonResponse, jsonError);
 
+app.get('/api/ping', (req, res) => {
+  res.setHeader('content-type','application/json');
+  res.end(JSON.stringify({ ok: true, env: 'deno' }));
+});
 // Health check
 app.get("/", (req, res) => {
   res.send("Anime API running on Deno Deploy!");
