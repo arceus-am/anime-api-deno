@@ -40,6 +40,11 @@ const jsonError = (res, message = "Internal server error", status = 500) =>
 
 // Register all API routes
 createApiRoutes(app, jsonResponse, jsonError);
+// deno-entry.js (या server start file)
+app.get('/api/ping', (req, res) => {
+  res.setHeader('content-type', 'application/json');
+  res.send ? res.send({ ok: true }) : res.end(JSON.stringify({ ok: true }));
+});
 
 // Health check
 app.get("/", (req, res) => {
