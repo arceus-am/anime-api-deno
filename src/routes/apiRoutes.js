@@ -15,6 +15,7 @@ import * as producerController from "../controllers/producer.controller.js";
 import * as characterListController from "../controllers/voiceactor.controller.js";
 import * as nextEpisodeScheduleController from "../controllers/nextEpisodeSchedule.controller.js";
 import { routeTypes } from "./category.route.js";
+import { getPopular } from '../controllers/popularController.js'; 
 import { getWatchlist } from "../controllers/watchlist.controller.js";
 import getVoiceActors from "../controllers/actors.controller.js";
 import getCharacter from "../controllers/characters.controller.js";
@@ -59,6 +60,18 @@ export const createApiRoutes = (app, jsonResponse, jsonError) => {
       categoryController.getCategory(req, res, routeType)
     )
   );
+function createRoute(path, handler) {
+  console.log('Registering route:', path);
+  app.get(path, async (req, res) => {
+    try {
+      await handler(req, res);
+    } catch (err) {
+      console.error('Handler error for', path, err);
+      res.status = 500;
+      res.end(JSON.stringify({ error: true, message: err.message }));
+    }
+  });
+}
 
   createRoute("/api/top-ten", topTenController.getTopTen);
   createRoute("/api/info", animeInfoController.getAnimeInfo);
@@ -86,4 +99,6 @@ export const createApiRoutes = (app, jsonResponse, jsonError) => {
   createRoute("/api/actors/:id", getVoiceActors);
   createRoute("/api/character/:id", getCharacter);
   createRoute("/api/top-search", getTopSearch);
+  createRoute('/api/popular', getPopular);
+  console.log('Registered /api/popular');
 };
