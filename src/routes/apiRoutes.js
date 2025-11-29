@@ -1,3 +1,10 @@
+// सबसे ऊपर या routes register के शुरुआत में
+createRoute('/api/hello-debug', (req, res) => {
+  res.setHeader && res.setHeader('content-type', 'application/json');
+  if (res.send) return res.send({ ok: true, from: 'debug' });
+  if (res.json) return res.json({ ok: true, from: 'debug' });
+  return res.end(JSON.stringify({ ok: true, from: 'debug' }));
+});
 import * as homeInfoController from "../controllers/homeInfo.controller.js";
 import * as categoryController from "../controllers/category.controller.js";
 import * as topTenController from "../controllers/topten.controller.js";
