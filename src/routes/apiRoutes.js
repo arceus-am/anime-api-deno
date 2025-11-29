@@ -83,6 +83,8 @@ function createRoute(path, handler) {
   createRoute("/api/filter", filterController.filter);
   createRoute("/api/search/suggest", suggestionsController.getSuggestions);
   createRoute("/api/schedule", scheduleController.getSchedule);
+  createRoute('/api/popular', getPopular);
+  console.log('Registered /api/popular');
   createRoute(
     "/api/schedule/:id",
     nextEpisodeScheduleController.getNextEpisodeSchedule
@@ -99,6 +101,5 @@ function createRoute(path, handler) {
   createRoute("/api/actors/:id", getVoiceActors);
   createRoute("/api/character/:id", getCharacter);
   createRoute("/api/top-search", getTopSearch);
-  createRoute('/api/popular', getPopular);
-  console.log('Registered /api/popular');
+ 
 };
