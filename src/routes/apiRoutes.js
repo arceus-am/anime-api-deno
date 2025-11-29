@@ -1,10 +1,3 @@
-// सबसे ऊपर या routes register के शुरुआत में
-createRoute('/api/hello-debug', (req, res) => {
-  res.setHeader && res.setHeader('content-type', 'application/json');
-  if (res.send) return res.send({ ok: true, from: 'debug' });
-  if (res.json) return res.json({ ok: true, from: 'debug' });
-  return res.end(JSON.stringify({ ok: true, from: 'debug' }));
-});
 import * as homeInfoController from "../controllers/homeInfo.controller.js";
 import * as categoryController from "../controllers/category.controller.js";
 import * as topTenController from "../controllers/topten.controller.js";
@@ -28,6 +21,14 @@ import getVoiceActors from "../controllers/actors.controller.js";
 import getCharacter from "../controllers/characters.controller.js";
 import * as filterController from "../controllers/filter.controller.js";
 import getTopSearch from "../controllers/topsearch.controller.js";
+
+// सबसे ऊपर या routes register के शुरुआत में
+createRoute('/api/hello-debug', (req, res) => {
+  res.setHeader && res.setHeader('content-type', 'application/json');
+  if (res.send) return res.send({ ok: true, from: 'debug' });
+  if (res.json) return res.json({ ok: true, from: 'debug' });
+  return res.end(JSON.stringify({ ok: true, from: 'debug' }));
+});
 
 export const createApiRoutes = (app, jsonResponse, jsonError) => {
   const createRoute = (path, controllerMethod) => {
@@ -90,7 +91,7 @@ function createRoute(path, handler) {
   createRoute("/api/filter", filterController.filter);
   createRoute("/api/search/suggest", suggestionsController.getSuggestions);
   createRoute("/api/schedule", scheduleController.getSchedule);
-  createRoute('/api/popular', getPopular);
+  createRoute("/api/popular", getPopular);
   console.log('Registered /api/popular');
   createRoute(
     "/api/schedule/:id",
